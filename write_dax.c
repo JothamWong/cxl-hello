@@ -23,13 +23,9 @@ int main() {
     }
 
     const char *msg = "HELLO JOTHAM";
-    memcpy(base, msg, 13);
+    strcpy(base, msg);
 
-    if (msync(base, 13, MS_SYNC) == -1) {
-        perror("msync");
-    } else {
-        printf("Wrote 13 bytes to %s\n", DEV_PATH);
-    }
+    msync(base, strlen(msg)+1, MS_SYNC);
 
     munmap(base, DEV_SIZE);
     close(fd);
