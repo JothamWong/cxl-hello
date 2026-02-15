@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <immintrin.h>
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (2 * 1024 * 1024ul)
@@ -20,8 +21,8 @@ int main() {
         close(fd);
         return 1;
     }
-
-    msync(base, 13, MS_INVALIDATE);
+    _mm_clflush(base);
+    _mm_mfence();
 
     printf("Read from %s: ", DEV_PATH);
     for (int i = 0; i < 13; i++) {

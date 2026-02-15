@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <immintrin.h>
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (2 * 1024 * 1024ul) // 2MB alignment
@@ -25,7 +26,8 @@ int main() {
     const char *msg = "HELLO JOTHAM";
     strcpy(base, msg);
 
-    msync(base, strlen(msg)+1, MS_SYNC);
+    _mm_clflush(base);
+    _mm_sfence();
 
     munmap(base, DEV_SIZE);
     close(fd);
