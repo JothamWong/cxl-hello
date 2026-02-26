@@ -35,10 +35,10 @@ int main() {
         size_t input_len = strlen(input_buffer);
         *len_ptr = input_len;
         strcpy(data_ptr, input_buffer);
-        // for (uintptr_t i = (uintptr_t)base; i < (uintptr_t)(data_ptr + input_len); i += 64) {
-        //     _mm_clflush((void *)i);
-        // }
-        // _mm_sfence();
+        for (uintptr_t i = (uintptr_t)base; i < (uintptr_t)(data_ptr + input_len); i += 64) {
+            _mm_clflush((void *)i);
+        }
+        _mm_sfence();
     }
 
     munmap(base, DEV_SIZE);
