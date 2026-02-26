@@ -16,6 +16,12 @@ pmdk_flush: pmdk_flush.c
 benchmark: benchmark_strats.cpp
 	g++ -O3 -march=native benchmark_strats.cpp -o benchmark
 
+write_i: write_interactive.c
+	$(CC) write_interactive.c -o write_i
+
+read_i: read_i.c
+	$(CC) read_i.c -o read_i
+
 clean:
 	rm -f $(TARGETS)
 
