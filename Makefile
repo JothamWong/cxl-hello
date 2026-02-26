@@ -1,20 +1,21 @@
-# Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
-TARGETS = read_dax write_dax
+TARGETS = read_dax write_dax pmdk_flush benchmark
 
-# Default target to build both programs
 all: $(TARGETS)
 
-# Rule to build the write script
 write_dax: write_dax.c
 	$(CC) $(CFLAGS) -o write_dax write_dax.c
 
-# Rule to build the read script
 read_dax: read_dax.c
 	$(CC) $(CFLAGS) -o read_dax read_dax.c
 
-# Clean up binaries
+pmdk_flush: pmdk_flush.c
+	$(CC) $(CFLAGS) -o pmdk_flush pmdk_flush.c -lpmem
+
+benchmark: benchmark_strats.cpp
+	g++ -O3 -march=native benchmark_strats.cpp -o benchmark
+
 clean:
 	rm -f $(TARGETS)
 
