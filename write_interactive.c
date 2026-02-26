@@ -12,7 +12,7 @@
 #define INPUT_SIZE 1024
 
 int main() {
-    int fd = open(DEV_PATH, O_RDWR);
+    int fd = open(DEV_PATH, O_RDWR | O_SYNC);
     if (fd == -1) {
         perror("Error opening device");
         return 1;

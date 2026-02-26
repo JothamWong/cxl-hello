@@ -9,7 +9,7 @@
 #define DEV_SIZE (2 * 1024 * 1024ul)
 
 int main() {
-    int fd = open(DEV_PATH, O_RDONLY);
+    int fd = open(DEV_PATH, O_RDWR | O_SYNC);
     if (fd == -1) {
         perror("Error opening device");
         return 1;
