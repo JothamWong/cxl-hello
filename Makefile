@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
-TARGETS = read_dax write_dax pmdk_flush benchmark
+TARGETS = read_dax write_dax pmdk_flush benchmark write_i read_i
 
 all: $(TARGETS)
 
