@@ -23,7 +23,7 @@ int main() {
         return 1;
     }
 
-    const char *msg = "HELLO JOTHAM";
+    const char *msg = "HEHE THE BOOGA";
     strcpy(base, msg);
 
     _mm_clflush(base);
