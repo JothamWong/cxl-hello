@@ -10,7 +10,7 @@
 
 #define DEV_PATH "/dev/dax0.0"
 // 128 GB
-#define DEV_SIZE (128 * 1024 * 1024 * 1024ul)
+#define DEV_SIZE (8 * 1024 * 1024 * 1024ul)
 #define MAP_SIZE (DEV_SIZE / 2)
 
 void bandwidth_write(char* addr, size_t bs) {
@@ -56,11 +56,11 @@ int main(int argc, char *argv[]) {
   int mmap_prot;
   int mmap_flags;
   if (mode == 'r') {
-    dev_flags = O_RDONLY;
+    dev_flags = O_RDWR;
     mmap_prot = PROT_READ;
     mmap_flags = MAP_SHARED;
   } else if (mode == 'w') {
-    dev_flags = O_WRONLY;
+    dev_flags = O_RDWR;
     mmap_prot = PROT_WRITE;
     mmap_flags = MAP_SHARED;
   } else {
