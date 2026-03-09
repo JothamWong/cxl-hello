@@ -22,6 +22,9 @@ write_i: write_interactive.c
 read_i: read_i.c
 	$(CC) read_i.c -o read_i
 
+conc: conc.c
+	$(CC) $(CFLAGS) -mavx512f -o conc conc.c
+
 clean:
 	rm -f $(TARGETS)
 
