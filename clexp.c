@@ -29,11 +29,6 @@ void clflopt(void* start, size_t dev_size) {
 }
 
 int main(int argc, char** argv) {
-  int num_iterations = 1000000;
-  if (argc >= 2) {
-    num_iterations = atoi(argv[1]);
-  }
-
   int fd = open(DEV_PATH, O_RDWR);
   if (fd == -1) {
       perror("open");
