@@ -10,6 +10,7 @@
 #include <xmmintrin.h>
 
 void clfl(void* start, size_t dev_size) {
+  _mm_sfence();
   uint64_t* s = (uint64_t*) start;
   int num_iterations = (dev_size / sizeof(uint64_t));
   for (int i = 0; i < num_iterations; i += 8) {
@@ -19,6 +20,7 @@ void clfl(void* start, size_t dev_size) {
 }
 
 void clflopt(void* start, size_t dev_size) {
+  _mm_sfence();
   uint64_t* s = (uint64_t*) start;
   int num_iterations = (dev_size / sizeof(uint64_t));
   for (int i = 0; i < num_iterations; i += 8) {
@@ -41,18 +43,21 @@ int main(int argc, char** argv) {
       return 1;
   }
 
+
+  clfl(base, DEV_SIZE); // for warmup
   double start_clfl_time = get_time();
   clfl(base, DEV_SIZE);
   double end_clfl_time = get_time();
   double clfl_time = end_clfl_time - start_clfl_time;
 
+  clflopt(base, DEV_SIZE); // for warmup
   double start_clflopt_time = get_time();
   clflopt(base, DEV_SIZE);
   double end_clflopt_time = get_time();
   double clflopt_time = end_clflopt_time - start_clflopt_time;
 
-  printf("clfl   : Took %fs for %luMB\n", clfl_time, DEV_SIZE);
-  printf("clflopt: Took %fs for %luMB\n", clflopt_time, DEV_SIZE);
+  printf("clfl   : Took %fs for %zuMB\n", clfl_time, DEV_SIZE / (1024 * 1024));
+  printf("clflopt: Took %fs for %zuMB\n", clflopt_time, DEV_SIZE / (1024 * 1024));
 
   munmap(base, DEV_SIZE);
   close(fd);
