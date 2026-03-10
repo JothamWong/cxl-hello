@@ -1,29 +1,34 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2
-TARGETS = read_dax write_dax benchmark write_i read_i conc
+CXX = g++
+CFLAGS = -Wall -Wextra -O2 -I. -march=native -g
+CXXFLAGS = -O3 -I. -march=native
+TARGETS = read_dax write_dax benchmark write_i read_i conc clexp
 
 all: $(TARGETS)
 
-write_dax: write_dax.c
-	$(CC) $(CFLAGS) -o write_dax write_dax.c
+write_dax: write_dax.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-read_dax: read_dax.c
-	$(CC) $(CFLAGS) -o read_dax read_dax.c
+read_dax: read_dax.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-pmdk_flush: pmdk_flush.c
-	$(CC) $(CFLAGS) -o pmdk_flush pmdk_flush.c -lpmem
+pmdk_flush: pmdk_flush.c utils.h
+	$(CC) $(CFLAGS) -o $@ $< -lpmem
 
-benchmark: benchmark_strats.cpp
-	g++ -O3 -march=native benchmark_strats.cpp -o benchmark
+benchmark: benchmark_strats.cpp utils.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-write_i: write_interactive.c
-	$(CC) write_interactive.c -o write_i
+write_i: write_interactive.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-read_i: read_i.c
-	$(CC) read_i.c -o read_i
+read_i: read_i.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-conc: conc.c
-	$(CC) $(CFLAGS) -mavx512f -o conc conc.c
+conc: conc.c utils.h
+	$(CC) $(CFLAGS) -mavx512f -o $@ $<
+
+clexp: clexp.c utils.h
+	$(CC) $(CFLAGS) -mavx512f -o $@ $<
 
 clean:
 	rm -f $(TARGETS)
