@@ -38,7 +38,6 @@ def main():
     try:
         with open(args.pat_file, "r") as f:
             for line in f:
-                print(line)
                 match = line_regex.search(line)
                 if match:
                     line_start = parse_address(match.group(1))
