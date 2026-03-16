@@ -23,7 +23,7 @@ int main() {
         return 1;
     }
 
-    const char *msg = "HEHE THE BOOGA";
+    const char *msg = "HEHE THE TOOGA";
     strcpy(base, msg);
 
     munmap(base, DEV_SIZE);
