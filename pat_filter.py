@@ -34,11 +34,11 @@ def main():
 
     # Regex to extract start and end addresses from a line like:
     # write-back @ 0x0000000000100000-0x0000000004000000
-    line_regex = re.compile(r"@\s*(0x[0-9a-fA-F]+)-(0x[0-9a-fA-F]+)")
-
+    line_regex = re.compile(r"(0x[0-9a-fA-F]+)-(0x[0-9a-fA-F]+)")
     try:
         with open(args.pat_file, "r") as f:
             for line in f:
+                print(line)
                 match = line_regex.search(line)
                 if match:
                     line_start = parse_address(match.group(1))
