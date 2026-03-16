@@ -7,7 +7,7 @@
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (2 * 1024 * 1024ul)
-#define DEV_OFFSET (0x3f80000000UL)
+#define DEV_OFFSET (0xeffe00000)
 
 int main() {
     int fd = open(DEV_PATH, O_RDONLY);
