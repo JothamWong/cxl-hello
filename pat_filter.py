@@ -12,7 +12,7 @@ def parse_address(addr_str):
         sys.exit(1)
 
 def ranges_overlap(start1, end1, start2, end2):
-    return max(start1, start2) < min(end1, end2)
+    return max(start1, start2) <= min(end1, end2)
 
 def main():
     parser = argparse.ArgumentParser(
