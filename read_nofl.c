@@ -7,6 +7,7 @@
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (2 * 1024 * 1024ul)
+#define DEV_OFFSET (0x3f80000000UL)
 
 int main() {
     int fd = open(DEV_PATH, O_RDONLY);
@@ -15,7 +16,7 @@ int main() {
         return 1;
     }
 
-    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ, MAP_SHARED, fd, 0);
+    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ, MAP_SHARED, fd, DEV_OFFSET);
     if (base == MAP_FAILED) {
         perror("mmap");
         close(fd);
