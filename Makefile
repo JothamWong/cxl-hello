@@ -2,9 +2,15 @@ CC = gcc
 CXX = g++
 CFLAGS = -Wall -Wextra -O2 -I. -march=native -g
 CXXFLAGS = -O3 -I. -march=native
-TARGETS = read_dax write_dax benchmark write_i read_i conc clexp
+TARGETS = read_dax write_dax benchmark write_i read_i conc clexp write_nofl read_nofl
 
 all: $(TARGETS)
+
+write_nofl: write_nofl.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+read_nofl: read_nofl.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 write_dax: write_dax.c utils.h
 	$(CC) $(CFLAGS) -o $@ $<
