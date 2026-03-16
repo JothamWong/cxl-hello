@@ -24,7 +24,7 @@ static int __init uc_map_init(void)
         return -EINVAL;
     }
 
-    if (!PAGE_ALIGNED(phys_start) || !PAGE_ALIGNED(phys_size)) {
+    if (!IS_ALIGNED(phys_start) || !IS_ALIGNED(phys_size)) {
         pr_err("uc_map: phys_start and phys_size must be page-aligned (multiple of 0x%lx)\n",
                PAGE_SIZE);
         return -EINVAL;
