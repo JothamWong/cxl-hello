@@ -7,16 +7,22 @@
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (2 * 1024 * 1024ul)
-#define DEV_OFFSET (0xeffe00000)
 
-int main() {
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s [offset]\n", argv[0]);    
+    }
+    
     int fd = open(DEV_PATH, O_RDONLY);
     if (fd == -1) {
         perror("open");
         return 1;
     }
 
-    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ, MAP_SHARED, fd, DEV_OFFSET);
+    unsigned long long dev_offset = strtoull(argv[1], NULL, 0);
+
+    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ, MAP_SHARED, fd, dev_offset);
     if (base == MAP_FAILED) {
         perror("mmap");
         close(fd);
