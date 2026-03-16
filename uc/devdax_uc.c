@@ -14,7 +14,7 @@ MODULE_PARM_DESC(phys_start, "Physical start address (e.g. 0x4080000000)");
 module_param(phys_size, ulong, 0444);
 MODULE_PARM_DESC(phys_size, "Size of region in bytes (e.g. 0x800000000)");
 
-static void __iomem *mapped_region;
+static void *mapped_region;
 
 static int __init uc_map_init(void)
 {
@@ -33,16 +33,17 @@ static int __init uc_map_init(void)
 
     n_pages = phys_size >> PAGE_SHIFT;
 
-    mapped_region = ioremap(phys_start, phys_size);
+    mapped_region = memremap(phys_start, phys_size, MEMREMAP_WB);
     if (!mapped_region) {
-        pr_err("uc_map: ioremap failed for [%016lx - %016lx]\n",
+        pr_err("uc_map: memremap failed for [%016lx - %016lx]\n",
                phys_start, phys_start + phys_size - 1);
         return -ENOMEM;
     }
 
+    pr_info("uc_map: memremap succeeded at vaddr %px\n", mapped_region);
     if (set_memory_uc((unsigned long)mapped_region, n_pages)) {
         pr_err("uc_map: set_memory_uc failed\n");
-        iounmap(mapped_region);
+        memunmap(mapped_region);
         return -EIO;
     }
 
@@ -57,9 +58,8 @@ static void __exit uc_map_exit(void)
     unsigned long n_pages = phys_size >> PAGE_SHIFT;
 
     set_memory_wb((unsigned long)mapped_region, n_pages);
-    iounmap(mapped_region);
-    pr_info("uc_map: unmapped [%016lx - %016lx] and restored to WB\n",
-            phys_start, phys_start + phys_size - 1);
+    memunmap(mapped_region);
+    pr_info("uc_map: unmapped and restored to WB\n");
 }
 
 module_init(uc_map_init);
