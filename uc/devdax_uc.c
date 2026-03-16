@@ -32,8 +32,7 @@ static int __init uc_map_init(void)
     }
 
     n_pages = phys_size >> PAGE_SHIFT;
-
-    mapped_region = memremap(phys_start, phys_size, MEMREMAP_WB);
+    mapped_region = ioremap_uc(phys_start, phys_size);
     if (!mapped_region) {
         pr_err("uc_map: memremap failed for [%016lx - %016lx]\n",
                phys_start, phys_start + phys_size - 1);
