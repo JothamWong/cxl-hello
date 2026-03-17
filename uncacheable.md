@@ -17,6 +17,10 @@ I suspect that the bricking is probably because of aliasing rules
 
 ## Current Steps
 
+0. Find the address of dax
+
+This can be done with `grep dax /proc/iomem`
+
 1. Unbind dax driver
 
 `echo dax0.0 > /sys/bus/dax/drivers/device_dax/unbind`
@@ -36,6 +40,11 @@ Should see the following:
 
 `PAT: [mem 0x0000004080000000-0x0000014080000000] uncached-minus`
 
+4. Write to /dev/mem and read from /dev/mem now
+
+Map to /dev/mem instead of /dev/dax0.0
+
+<!-- 
 4. Bind dax driver back
 
 Now should see 2 entries in PAT
@@ -48,4 +57,4 @@ PAT: [mem 0x0000004080000000-0x0000014080000000] uncached-minus
 
 Now the thing is idk if the 2 entries bricks the device or not.
 
-From https://www.landley.net/kdocs/ols/2008/ols2008v2-pages-135-144.pdf it seems like having overlapping is actually undefined behavior of sorts.
+From https://www.landley.net/kdocs/ols/2008/ols2008v2-pages-135-144.pdf it seems like having overlapping is actually undefined behavior of sorts. -->
