@@ -10,14 +10,20 @@
 #define DEV_SIZE (2 * 1024 * 1024ul) // 2MB alignment
 #define OFFSET (0x4080000000)
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s [offset]\n", argv[0]);
+        return 1;  
+    }
+    unsigned long long dev_offset = strtoull(argv[1], NULL, 0);
+
     int fd = open(DEV_PATH, O_RDWR | O_SYNC);
     if (fd == -1) {
         perror("open");
         return 1;
     }
 
-    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, OFFSET);
+    char *base = (char *)mmap(NULL, DEV_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, OFFSET + dev_offset);
     if (base == MAP_FAILED) {
         perror("mmap");
         close(fd);
