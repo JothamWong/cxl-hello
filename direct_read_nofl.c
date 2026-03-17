@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <immintrin.h>
 
-#define DEV_PATH "/dev/dax0.0"
+#define DEV_PATH "/dev/mem"
 #define DEV_SIZE (2 * 1024 * 1024ul)
 #define OFFSET (0x4080000000)
 
