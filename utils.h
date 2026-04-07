@@ -7,6 +7,8 @@
 
 #define DEV_PATH "/dev/dax0.0"
 #define DEV_SIZE (16 * 1024 * 1024ul)
+#define CL_SIZE (64)
+
 
 static inline double get_time() {
     struct timeval tv;
