@@ -93,8 +93,8 @@ static uint64_t measure_reflush_cycles(char *base, int distance, int iters) {
       *(volatile uint64_t *)Li = (uint64_t)(k + i);
       clobber();
       clflushopt_line(Li);
+      sfence_full();
     }
-    sfence_full();
 
     *(volatile uint64_t *)A = (uint64_t)(k ^ 0xdeadbeefULL);
     clobber();
