@@ -86,7 +86,7 @@ static uint64_t measure_reflush_cycles(char *base, int distance, int iters) {
     *(volatile uint64_t *)A = (uint64_t)k;
     clobber();
     clflushopt_line(A);
-    // sfence_full();
+    sfence_full();
 
     for (int i = 1; i <= distance; i++) {
       char *Li = base + (size_t)i * CL_SIZE;
@@ -96,10 +96,10 @@ static uint64_t measure_reflush_cycles(char *base, int distance, int iters) {
       // sfence_full();
     }
 
-    *(volatile uint64_t *)A = (uint64_t)(k ^ 0xdeadbeefULL);
     clobber();
-
+    
     uint64_t t0 = rdtsc_start();
+    *(volatile uint64_t *)A = (uint64_t)(k ^ 0xdeadbeefULL);
     clflushopt_line(A);
     sfence_full();
     uint64_t t1 = rdtsc_stop();
