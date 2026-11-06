@@ -2,7 +2,7 @@ CC = gcc
 CXX = g++
 CFLAGS = -Wall -Wextra -O2 -I. -march=native -g
 CXXFLAGS = -O3 -I. -march=native
-TARGETS = read_dax write_dax benchmark write_i read_i conc clexp write_nofl read_nofl direct_read_nofl direct_write_nofl reflushes
+TARGETS = read_dax write_dax read_dax2 write_dax2 benchmark write_i read_i conc clexp write_nofl read_nofl direct_read_nofl direct_write_nofl reflushes
 
 all: $(TARGETS)
 
@@ -24,7 +24,13 @@ read_nofl: read_nofl.c
 write_dax: write_dax.c utils.h
 	$(CC) $(CFLAGS) -o $@ $<
 
+write_dax2: write_dax2.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
+
 read_dax: read_dax.c utils.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+read_dax2: read_dax2.c utils.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 pmdk_flush: pmdk_flush.c utils.h
